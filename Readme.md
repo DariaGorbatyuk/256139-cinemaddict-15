@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Daria](https://up.htmlacademy.ru/ecmascript/15/user/256139).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Марков](https://htmlacademy.ru/profile/damarkov)
 
 ---
 

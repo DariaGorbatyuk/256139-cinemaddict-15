@@ -1,6 +1,8 @@
 import {createUserTemplate} from "./view/user";
+import {createMenuTemplate} from "./view/menu";
 
 const header = document.querySelector('.header');
+const main = document.querySelector('.main');
 
 
 const render = (container, template, place) => {
@@ -8,3 +10,4 @@ const render = (container, template, place) => {
 };
 
 render(header, createUserTemplate(), 'beforeend');
+render(main, createMenuTemplate(), 'beforeend');

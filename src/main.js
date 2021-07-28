@@ -1,8 +1,9 @@
 import {createUserTemplate} from './view/user';
 import {createMenuTemplate} from './view/menu';
 import {createSortTemplate} from './view/sort';
-import {createCardTemplate} from "./view/card";
+import {createCardTemplate} from './view/card';
 import {createFilmsConteinerTemplate} from './view/films';
+import {createShowMoreBtnTemplate} from './view/showMore';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
@@ -19,6 +20,7 @@ render(main, createSortTemplate(), 'beforeend');
 render(main, createFilmsConteinerTemplate(), 'beforeend');
 
 const filmsListContainers = document.querySelectorAll('.films-list__container');
+const filmsList = document.querySelector('.films-list');
 const [allMovies, ...extraMovies] = filmsListContainers;
 
 for (let i = 0; i < CART_AMOUNT; i++) {
@@ -30,3 +32,5 @@ extraMovies.forEach((container) => {
     render(container, createCardTemplate(), 'beforeend');
   }
 });
+
+render(filmsList, createShowMoreBtnTemplate(), 'beforeend');

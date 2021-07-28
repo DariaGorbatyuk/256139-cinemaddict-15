@@ -4,14 +4,15 @@ import {createSortTemplate} from './view/sort';
 import {createCardTemplate} from './view/card';
 import {createFilmsConteinerTemplate} from './view/films';
 import {createShowMoreBtnTemplate} from './view/showMore';
-import {renderFilmsAmount} from './view/filmsAmount';
+import {createFilmsAmountTemplate} from './view/filmsAmount';
+import {createPopupTemplate} from './view/popup';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
 const CART_AMOUNT = 5;
 const CART_AMOUNT_EXTRA = 2;
 
-const render = (container, template, place='beforeend') => {
+const render = (container, template, place = 'beforeend') => {
   container.insertAdjacentHTML(place, template);
 };
 
@@ -23,6 +24,8 @@ render(main, createFilmsConteinerTemplate());
 const filmsListContainers = document.querySelectorAll('.films-list__container');
 const filmsList = document.querySelector('.films-list');
 const footerStatistics = document.querySelector('.footer__statistics');
+const body = document.body;
+
 const [allMovies, ...extraMovies] = filmsListContainers;
 
 for (let i = 0; i < CART_AMOUNT; i++) {
@@ -36,4 +39,6 @@ extraMovies.forEach((container) => {
 });
 
 render(filmsList, createShowMoreBtnTemplate());
-render(footerStatistics, renderFilmsAmount());
+render(footerStatistics, createFilmsAmountTemplate());
+
+render(body, createPopupTemplate);

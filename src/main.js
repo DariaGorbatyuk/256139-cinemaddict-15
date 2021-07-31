@@ -24,7 +24,6 @@ render(main, createFilmsConteinerTemplate());
 const filmsListContainers = document.querySelectorAll('.films-list__container');
 const filmsList = document.querySelector('.films-list');
 const footerStatistics = document.querySelector('.footer__statistics');
-const body = document.body;
 
 const [allMovies, ...extraMovies] = filmsListContainers;
 
@@ -41,4 +40,5 @@ extraMovies.forEach((container) => {
 render(filmsList, createShowMoreBtnTemplate());
 render(footerStatistics, createFilmsAmountTemplate());
 
-render(body, createPopupTemplate);
+const pageBody = document.body;
+render(pageBody, createPopupTemplate());

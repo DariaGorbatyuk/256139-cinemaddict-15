@@ -36,10 +36,12 @@ const films = [
 const names = ['Erich von Stroheim', 'Mary Beth', 'Dan Duryea', 'Richard Weil', 'Anne Wigton', 'Heinz Herald'];
 const countries = ['Finland', 'USA', 'Russia', 'Italy', 'France', 'German'];
 const genres = ['Comedy', 'Mystery', ' Film-Noir', 'Drama', 'Musical', 'Detective'];
-const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.'.split('.');
+const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra.'.split('.');
 const ages = [0, 6, 12, 16, 18];
 const commentsList = ['Awesome!', 'Interesting setting and a good cast.', 'Almost two hours? Seriously?', 'Boooooring('];
 const emotions = ['smile', 'sleeping', 'puke', 'angry'];
+
+
 const createCommentDate = () => {
   const monthGap = 11;
   const dayGap = 30;
@@ -61,6 +63,13 @@ export const createFilm = () => {
   const commentCount = getRandomInteger(0, 5);
   const comments = new Array(commentCount).fill().map(() => createComment().id);
   return {
+    comments: comments,
+    userInfo: {
+      isWatchList: Boolean(getRandomInteger(0, 1)),
+      isWatched: watched,
+      isFavorite: Boolean(getRandomInteger(0, 1)),
+      watchedDate: watchedDate,
+    },
     filmInfo: {
       title: film.title,
       originalTitle: film.title,
@@ -74,16 +83,9 @@ export const createFilm = () => {
         date: new Date(getRandomInteger(1930, 2020), getRandomInteger(0, 11), getRandomInteger(0, 30)),
         releaseCountry: countries[getRandomInteger(0, countries.length - 1)],
       },
-      runtime: getRandomInteger(45, 120),
+      runtime: getRandomInteger(60, 120),
       genre: genres.slice(0, getRandomInteger(1, genres.length - 1)),
       description: description.slice(0, description.length - 1).join('.'),
-      userInfo: {
-        isWatchList: Boolean(getRandomInteger(0, 1)),
-        isWatched: watched,
-        watchedDate: watchedDate,
-        isFavorite: Boolean(getRandomInteger(0, 1)),
-      },
-      comments: comments,
     },
   };
 };

@@ -6,6 +6,8 @@ import {createFilmsConteinerTemplate} from './view/films';
 import {createShowMoreBtnTemplate} from './view/showMore';
 import {createFilmsAmountTemplate} from './view/filmsAmount';
 import {createPopupTemplate} from './view/popup';
+import {createFilm} from './mock/film';
+//console.log(createFilm());
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
@@ -28,17 +30,17 @@ const footerStatistics = document.querySelector('.footer__statistics');
 const [allMovies, ...extraMovies] = filmsListContainers;
 
 for (let i = 0; i < CART_AMOUNT; i++) {
-  render(allMovies, createCardTemplate());
+  render(allMovies, createCardTemplate(createFilm()));
 }
 
 extraMovies.forEach((container) => {
   for (let i = 0; i < CART_AMOUNT_EXTRA; i++) {
-    render(container, createCardTemplate());
+    render(container, createCardTemplate(createFilm()));
   }
 });
 
 render(filmsList, createShowMoreBtnTemplate());
-render(footerStatistics, createFilmsAmountTemplate());
+render(footerStatistics, createFilmsAmountTemplate(createFilm()));
 
 const pageBody = document.body;
-render(pageBody, createPopupTemplate());
+//render(pageBody, createPopupTemplate());

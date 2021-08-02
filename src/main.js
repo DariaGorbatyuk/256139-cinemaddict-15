@@ -11,8 +11,12 @@ import {createFilm} from './mock/film';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
-const CART_AMOUNT = 5;
+const CART_AMOUNT = 20;
+const CART_START = 5;
+const CART_ADDED = 5;
 const CART_AMOUNT_EXTRA = 2;
+
+
 
 const render = (container, template, place = 'beforeend') => {
   container.insertAdjacentHTML(place, template);
@@ -29,7 +33,7 @@ const footerStatistics = document.querySelector('.footer__statistics');
 
 const [allMovies, ...extraMovies] = filmsListContainers;
 
-for (let i = 0; i < CART_AMOUNT; i++) {
+for (let i = 0; i < CART_START; i++) {
   render(allMovies, createCardTemplate(createFilm()));
 }
 
@@ -40,7 +44,7 @@ extraMovies.forEach((container) => {
 });
 
 render(filmsList, createShowMoreBtnTemplate());
-render(footerStatistics, createFilmsAmountTemplate(createFilm()));
+render(footerStatistics, createFilmsAmountTemplate(CART_AMOUNT));
 
-const pageBody = document.body;
-//render(pageBody, createPopupTemplate());
+// const pageBody = document.body;
+// render(pageBody, createPopupTemplate(createFilm()));

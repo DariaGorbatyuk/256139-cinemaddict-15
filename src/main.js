@@ -7,6 +7,7 @@ import {createShowMoreBtnTemplate} from './view/showMore';
 import {createFilmsAmountTemplate} from './view/filmsAmount';
 import {createPopupTemplate} from './view/popup';
 import {createFilm} from './mock/film';
+import {getRandomInteger} from "./utils";
 //console.log(createFilm());
 
 const header = document.querySelector('.header');
@@ -15,7 +16,7 @@ const CART_AMOUNT = 20;
 const CART_START = 5;
 const CART_ADDED = 5;
 const CART_AMOUNT_EXTRA = 2;
-
+const filmsContainer = new Array(CART_AMOUNT).fill().map(createFilm);
 
 
 const render = (container, template, place = 'beforeend') => {
@@ -33,13 +34,13 @@ const footerStatistics = document.querySelector('.footer__statistics');
 
 const [allMovies, ...extraMovies] = filmsListContainers;
 
-for (let i = 0; i < CART_START; i++) {
-  render(allMovies, createCardTemplate(createFilm()));
+for (let i = 0, j=1; i < CART_START; i++, j++) {
+  render(allMovies, createCardTemplate(filmsContainer[j]));
 }
 
 extraMovies.forEach((container) => {
   for (let i = 0; i < CART_AMOUNT_EXTRA; i++) {
-    render(container, createCardTemplate(createFilm()));
+    render(container, createCardTemplate(filmsContainer[getRandomInteger(0, CART_AMOUNT-1)]));
   }
 });
 

@@ -47,5 +47,5 @@ extraMovies.forEach((container) => {
 render(filmsList, createShowMoreBtnTemplate());
 render(footerStatistics, createFilmsAmountTemplate(CART_AMOUNT));
 
-// const pageBody = document.body;
-// render(pageBody, createPopupTemplate(createFilm()));
+const pageBody = document.body;
+render(pageBody, createPopupTemplate(filmsContainer[0]));

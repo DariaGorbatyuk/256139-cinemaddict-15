@@ -14,3 +14,12 @@ export const getRandomFloat = (a = 0, b = 1, count) => {
   return random.toFixed(count);
 };
 
+export const humanizeDate = (date) => {
+  return dayjs(date).format('D MMMM YYYY');
+};
+
+export const humanizeRuntime = (runtime) => {
+  const hour = Math.floor(runtime / 60);
+  const minute = runtime % 60;
+  return `${hour}h ${minute}m`;
+};

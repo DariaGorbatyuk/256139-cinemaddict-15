@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-
+import {humanizeRuntime} from "../utils";
 export const createCardTemplate = (film = {}) => {
   const {comments, userInfo, filmInfo} = film;
   const {isWatchList, isWatched, isFavorite} = userInfo;
@@ -8,17 +8,13 @@ export const createCardTemplate = (film = {}) => {
   const watchedClass = isWatched ? 'film-card__controls-item--active' : '';
   const favoriteClass = isFavorite ? 'film-card__controls-item--active' : '';
   const releaseYear = dayjs(release.date).format('YYYY');
-  const humanizeRuntime = () => ({
-    h: Math.floor(runtime / 60),
-    m: runtime % 60,
-  });
-  const humanRuntime = humanizeRuntime();
+  const humanRuntime = humanizeRuntime(runtime);
   return `<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">
             <span class="film-card__year">${releaseYear}</span>
-            <span class="film-card__duration">${humanRuntime.h}h ${humanRuntime.m}m</span>
+            <span class="film-card__duration">${humanRuntime}</span>
             <span class="film-card__genre">${genre.join(',')}</span>
           </p>
           <img src="./images/posters/${poster}" alt="${title}" class="film-card__poster">

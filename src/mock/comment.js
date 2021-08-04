@@ -1,9 +1,10 @@
 import {getRandomInteger} from '../utils';
 import dayjs from 'dayjs';
+import {emotions} from '../utils';
 
 const names = ['Erich von Stroheim', 'Mary Beth', 'Dan Duryea', 'Richard Weil', 'Anne Wigton', 'Heinz Herald'];
 const commentsList = ['Awesome!', 'Interesting setting and a good cast.', 'Almost two hours? Seriously?', 'Boooooring('];
-const emotions = ['smile', 'sleeping', 'puke', 'angry'];
+
 
 const createCommentDate = () => {
   const monthGap = 11;

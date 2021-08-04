@@ -23,3 +23,5 @@ export const humanizeRuntime = (runtime) => {
   const minute = runtime % 60;
   return `${hour}h ${minute}m`;
 };
+
+export const emotions = ['smile', 'sleeping', 'puke', 'angry'];

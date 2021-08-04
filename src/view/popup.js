@@ -3,8 +3,8 @@ import {humanizeDate} from "../utils";
 import {humanizeRuntime} from "../utils";
 
 export const createPopupTemplate = (film = {}) => {
-  console.log(film);
   const {comments, userInfo, filmInfo} = film;
+  console.log(comments);
   const {isWatchList, isWatched, isFavorite} = userInfo;
   const {
     title,
@@ -18,11 +18,11 @@ export const createPopupTemplate = (film = {}) => {
     release,
     runtime,
     genre,
-    description
+    description,
   } = filmInfo;
-  const watchListClass = isWatchList ? 'film-card__controls-item--active' : '';
-  const watchedClass = isWatched ? 'film-card__controls-item--active' : '';
-  const favoriteClass = isFavorite ? 'film-card__controls-item--active' : '';
+  const watchListClass = isWatchList ? 'film-details__control-button--active' : '';
+  const watchedClass = isWatched ? 'film-details__control-button--active' : '';
+  const favoriteClass = isFavorite ? 'film-details__control-button--active' : '';
   const releaseDate = humanizeDate(release.date);
   const filmRuntime = humanizeRuntime(runtime);
   const tableData = [
@@ -82,9 +82,9 @@ export const createPopupTemplate = (film = {}) => {
       </div>
 
       <section class="film-details__controls">
-        <button type="button" class="film-details__control-button film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
-        <button type="button" class="film-details__control-button film-details__control-button--active film-details__control-button--watched" id="watched" name="watched">Already watched</button>
-        <button type="button" class="film-details__control-button film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+        <button type="button" class="film-details__control-button film-details__control-button--watchlist ${watchListClass}" id="watchlist" name="watchlist">Add to watchlist</button>
+        <button type="button" class="film-details__control-button ${watchedClass} film-details__control-button--watched" id="watched" name="watched">Already watched</button>
+        <button type="button" class="film-details__control-button film-details__control-button--favorite ${favoriteClass}" id="favorite" name="favorite">Add to favorites</button>
       </section>
     </div>
 

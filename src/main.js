@@ -7,7 +7,7 @@ import {createShowMoreBtnTemplate} from './view/showMore';
 import {createFilmsAmountTemplate} from './view/filmsAmount';
 import {createPopupTemplate} from './view/popup';
 import {createFilm} from './mock/film';
-import {getRandomInteger} from "./utils";
+import {getRandomInteger} from './utils';
 //console.log(createFilm());
 
 const header = document.querySelector('.header');

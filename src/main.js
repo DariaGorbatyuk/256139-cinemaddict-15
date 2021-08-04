@@ -24,7 +24,7 @@ const render = (container, template, place = 'beforeend') => {
 };
 
 render(header, createUserTemplate());
-render(main, createMenuTemplate());
+render(main, createMenuTemplate(filmsContainer));
 render(main, createSortTemplate());
 render(main, createFilmsConteinerTemplate());
 
@@ -48,4 +48,4 @@ render(filmsList, createShowMoreBtnTemplate());
 render(footerStatistics, createFilmsAmountTemplate(CART_AMOUNT));
 
 const pageBody = document.body;
-render(pageBody, createPopupTemplate(filmsContainer[0]));
+//render(pageBody, createPopupTemplate(filmsContainer[0]));

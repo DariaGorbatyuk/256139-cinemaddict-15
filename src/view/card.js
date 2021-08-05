@@ -1,5 +1,5 @@
-import dayjs from "dayjs";
-import {humanizeRuntime} from "../utils";
+import dayjs from 'dayjs';
+import {humanizeRuntime} from '../utils';
 export const createCardTemplate = (film = {}) => {
   const {comments, userInfo, filmInfo} = film;
   const {isWatchList, isWatched, isFavorite} = userInfo;

@@ -1,5 +1,5 @@
-import {humanizeDate} from "../utils";
-import {humanizeRuntime} from "../utils";
+import {humanizeDate} from '../utils';
+import {humanizeRuntime} from '../utils';
 import dayjs from 'dayjs';
 import {emotions} from '../utils';
 

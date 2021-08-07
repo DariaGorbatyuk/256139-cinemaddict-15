@@ -11,12 +11,13 @@ import {getRandomInteger} from './utils';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
-const CART_AMOUNT = 20;
+const CART_AMOUNT = 5;
 const CART_START = 5;
 const CART_ADDED = 5;
 const CART_AMOUNT_EXTRA = 2;
 
 const filmsArray = new Array(CART_AMOUNT).fill().map(createFilm);
+const lastFilmsArrayIndex = filmsArray.length - 1;
 let lastShownFilmIndex = CART_START - 1;
 
 const render = (container, template, place = 'beforeend') => {
@@ -34,8 +35,8 @@ const footerStatistics = document.querySelector('.footer__statistics');
 
 const [allMovies, ...extraMovies] = filmsListContainers;
 
-for (let i = 0, j = 1; i < CART_START; i++, j++) {
-  render(allMovies, createCardTemplate(filmsArray[j]));
+for (let i = 0; i < CART_START; i++) {
+  render(allMovies, createCardTemplate(filmsArray[i]));
 }
 
 extraMovies.forEach((container) => {
@@ -51,12 +52,12 @@ btnShowMore.addEventListener('click', onBtnShowMoreClick);
 
 function onBtnShowMoreClick(evt) {
   evt.preventDefault();
-  const max = lastShownFilmIndex + CART_ADDED >= filmsArray.length - 1 ? (filmsArray.length - 1 - lastShownFilmIndex) : CART_ADDED;
+  const max = lastShownFilmIndex + CART_ADDED >= lastFilmsArrayIndex ? (lastFilmsArrayIndex - lastShownFilmIndex) : CART_ADDED;
   for (let i = 0, j = lastShownFilmIndex; i < max; i++, j++) {
     render(allMovies, createCardTemplate(filmsArray[j]));
   }
   lastShownFilmIndex += CART_ADDED;
-  if (lastShownFilmIndex === filmsArray.length - 1) {
+  if (lastShownFilmIndex === lastFilmsArrayIndex) {
     evt.target.remove();
   }
 }

@@ -63,4 +63,4 @@ function onBtnShowMoreClick(evt) {
 }
 
 const pageBody = document.body;
-//render(pageBody, createPopupTemplate(filmsArray[0]));
+render(pageBody, createPopupTemplate(filmsArray[0]));

@@ -1,5 +1,9 @@
 import dayjs from 'dayjs';
 
+const RenderPosition = {
+  AFTERBEGIN: 'afterbegin',
+  BEFOREEND: 'beforeend',
+};
 // Функция из интернета по генерации случайного числа из диапазона
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
 const getRandomInteger = (a = 0, b = 1) => {
@@ -24,6 +28,23 @@ const humanizeRuntime = (runtime) => {
 const renderTemplate = (container, template, place = 'beforeend') => {
   container.insertAdjacentHTML(place, template);
 };
+
+const renderElement = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.append(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.prepend(element);
+  }
+};
+
+const createElement = (template) => {
+  const newElement = document.createElement('div'); // 1
+  newElement.innerHTML = template; // 2
+
+  return newElement.firstChild; // 3
+};
 const emotions = ['smile', 'sleeping', 'puke', 'angry'];
 
-export {getRandomInteger, getRandomFloat, humanizeDate, humanizeRuntime, renderTemplate, emotions};
+export {getRandomInteger, getRandomFloat, humanizeDate, humanizeRuntime, renderTemplate, renderElement, createElement, emotions};

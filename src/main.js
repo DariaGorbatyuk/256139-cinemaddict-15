@@ -46,8 +46,8 @@ extraMovies.forEach((container) => {
 
 render(filmsList, createShowMoreBtnTemplate());
 render(footerStatistics, createFilmsAmountTemplate(CART_AMOUNT));
-const btnShoMore = document.querySelector('.films-list__show-more');
-btnShoMore.addEventListener('click', onBtnShowMoreClick);
+const btnShowMore = document.querySelector('.films-list__show-more');
+btnShowMore.addEventListener('click', onBtnShowMoreClick);
 
 function onBtnShowMoreClick(evt) {
   evt.preventDefault();
@@ -62,4 +62,4 @@ function onBtnShowMoreClick(evt) {
 }
 
 const pageBody = document.body;
-render(pageBody, createPopupTemplate(filmsArray[0]));
+//render(pageBody, createPopupTemplate(filmsArray[0]));

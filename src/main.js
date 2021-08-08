@@ -1,14 +1,13 @@
 import {createUserTemplate} from './view/user';
 import {createMenuTemplate} from './view/menu';
-import {createSortTemplate} from './view/sort';
+import SortMenuView from './view/sort';
 import {createCardTemplate} from './view/card';
 import {createFilmsConteinerTemplate} from './view/films';
 import {createShowMoreBtnTemplate} from './view/showMore';
 import {createFilmsAmountTemplate} from './view/filmsAmount';
 import {createPopupTemplate} from './view/popup';
 import {createFilm} from './mock/film';
-import {getRandomInteger} from './utils';
-import {renderTemplate} from './utils';
+import {renderTemplate, getRandomInteger, renderElement, RenderPosition} from './utils';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
@@ -24,7 +23,7 @@ let lastShownFilmIndex = CART_START - 1;
 
 renderTemplate(header, createUserTemplate());
 renderTemplate(main, createMenuTemplate(filmsArray));
-renderTemplate(main, createSortTemplate());
+renderElement(main, new SortMenuView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(main, createFilmsConteinerTemplate());
 
 const filmsListContainers = document.querySelectorAll('.films-list__container');
@@ -61,4 +60,4 @@ function onBtnShowMoreClick(evt) {
 }
 
 const pageBody = document.body;
-renderTemplate(pageBody, createPopupTemplate(filmsArray[0]));
+//renderTemplate(pageBody, createPopupTemplate(filmsArray[0]));

@@ -1,4 +1,4 @@
-import {createUserTemplate} from './view/user';
+import UserView from './view/user';
 import {createMenuTemplate} from './view/menu';
 import SortMenuView from './view/sort';
 import {createCardTemplate} from './view/card';
@@ -21,8 +21,8 @@ const lastFilmsArrayIndex = filmsArray.length - 1;
 let lastShownFilmIndex = CART_START - 1;
 
 
-renderTemplate(header, createUserTemplate());
-renderTemplate(main, createMenuTemplate(filmsArray));
+renderElement(header, new UserView().getElement(), RenderPosition.BEFOREEND);
+renderElement(main, createMenuTemplate(filmsArray));
 renderElement(main, new SortMenuView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(main, createFilmsConteinerTemplate());
 

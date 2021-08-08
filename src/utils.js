@@ -25,11 +25,9 @@ const humanizeRuntime = (runtime) => {
   const minute = runtime % 60;
   return `${hour}h ${minute}m`;
 };
-const renderTemplate = (container, template, place = 'beforeend') => {
-  container.insertAdjacentHTML(place, template);
-};
 
-const renderElement = (container, element, place) => {
+
+const renderElement = (container, element, place = RenderPosition.BEFOREEND) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
@@ -43,8 +41,8 @@ const renderElement = (container, element, place) => {
 const createElement = (template) => {
   const newElement = document.createElement('div');
   newElement.innerHTML = template;
-  return newElement.firstChild;
+  return newElement.firstElementChild;
 };
 const emotions = ['smile', 'sleeping', 'puke', 'angry'];
 
-export {getRandomInteger, getRandomFloat, humanizeDate, humanizeRuntime, renderTemplate, renderElement, createElement, RenderPosition, emotions};
+export {getRandomInteger, getRandomFloat, humanizeDate, humanizeRuntime,  renderElement, createElement, RenderPosition, emotions};

@@ -1,5 +1,5 @@
 import UserView from './view/user';
-import {createMenuTemplate} from './view/menu';
+import MenuView from './view/menu';
 import SortMenuView from './view/sort';
 import {createCardTemplate} from './view/card';
 import {createFilmsConteinerTemplate} from './view/films';
@@ -22,7 +22,7 @@ let lastShownFilmIndex = CART_START - 1;
 
 
 renderElement(header, new UserView().getElement(), RenderPosition.BEFOREEND);
-renderElement(main, createMenuTemplate(filmsArray));
+renderElement(main, new MenuView(filmsArray).getElement(), RenderPosition.BEFOREEND);
 renderElement(main, new SortMenuView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(main, createFilmsConteinerTemplate());
 

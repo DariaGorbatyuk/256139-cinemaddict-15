@@ -1,4 +1,5 @@
-export const createMenuTemplate = (allFilms = {}) => {
+import {createElement} from '../utils';
+const createMenuTemplate = (allFilms = {}) => {
   const filmsToFilter = {
     watchlist: allFilms.filter(({userInfo}) => userInfo.isWatchList).length,
     history: allFilms.filter(({userInfo}) => userInfo.isWatched).length,
@@ -14,3 +15,25 @@ export const createMenuTemplate = (allFilms = {}) => {
     <a href="#stats" class="main-navigation__additional">Stats</a>
   </nav>`;
 };
+
+export default class SortMenu {
+  constructor(films) {
+    this._element = null;
+    this._films = films;
+  }
+
+  getTemplate() {
+    return createMenuTemplate(this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

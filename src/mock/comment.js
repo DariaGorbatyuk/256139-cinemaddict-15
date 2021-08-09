@@ -7,9 +7,9 @@ const commentsList = ['Awesome!', 'Interesting setting and a good cast.', 'Almos
 
 
 const createCommentDate = () => {
-  const monthGap = 11;
-  const dayGap = 30;
-  return dayjs().subtract(getRandomInteger(0, monthGap), 'month').subtract(getRandomInteger(0, dayGap), 'day');
+  const MONTH_IN_YEAR = 11;
+  const DAY_IN_MONTH = 31;
+  return dayjs().subtract(getRandomInteger(0, MONTH_IN_YEAR), 'month').subtract(getRandomInteger(0, DAY_IN_MONTH), 'day');
 };
 
 export const createComment = () => ({

@@ -1,32 +1,29 @@
-import {createUserTemplate} from './view/user';
-import {createMenuTemplate} from './view/menu';
-import {createSortTemplate} from './view/sort';
-import {createCardTemplate} from './view/card';
-import {createFilmsConteinerTemplate} from './view/films';
-import {createShowMoreBtnTemplate} from './view/showMore';
-import {createFilmsAmountTemplate} from './view/filmsAmount';
-import {createPopupTemplate} from './view/popup';
+import UserView from './view/user';
+import MenuView from './view/menu';
+import SortMenuView from './view/sort';
+import CardView from './view/card';
+import FilmsContainerView from './view/films';
+import ShowMoreView from './view/showMore';
+import FilmsAmountView from './view/filmsAmount';
+import PopupView from './view/popup';
 import {createFilm} from './mock/film';
-import {getRandomInteger} from './utils';
+import {getRandomInteger, renderElement, RenderPosition} from './utils';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
-const CART_AMOUNT = 20;
+const CART_AMOUNT = 6;
 const CART_START = 5;
 const CART_ADDED = 5;
 const CART_AMOUNT_EXTRA = 2;
+const body = document.body;
 
 const filmsArray = new Array(CART_AMOUNT).fill().map(createFilm);
-let lastShownFilmIndex = CART_START - 1;
 
-const render = (container, template, place = 'beforeend') => {
-  container.insertAdjacentHTML(place, template);
-};
 
-render(header, createUserTemplate());
-render(main, createMenuTemplate(filmsArray));
-render(main, createSortTemplate());
-render(main, createFilmsConteinerTemplate());
+renderElement(header, new UserView().getElement(), RenderPosition.BEFOREEND);
+renderElement(main, new MenuView(filmsArray).getElement(), RenderPosition.BEFOREEND);
+renderElement(main, new SortMenuView().getElement(), RenderPosition.BEFOREEND);
+renderElement(main, new FilmsContainerView().getElement(), RenderPosition.BEFOREEND);
 
 const filmsListContainers = document.querySelectorAll('.films-list__container');
 const filmsList = document.querySelector('.films-list');
@@ -34,32 +31,61 @@ const footerStatistics = document.querySelector('.footer__statistics');
 
 const [allMovies, ...extraMovies] = filmsListContainers;
 
-for (let i = 0, j = 1; i < CART_START; i++, j++) {
-  render(allMovies, createCardTemplate(filmsArray[j]));
-}
+const renderFilm = (filmsContainer, film) => {
+  const cardComponent = new CardView(film);
+  const popupComponent = new PopupView(film);
+
+  renderElement(filmsContainer, cardComponent.getElement(), RenderPosition.BEFOREEND);
+
+  function onPopupClose(evt) {
+    evt.preventDefault();
+    body.removeChild(popupComponent.getElement());
+    body.classList.remove('hide-overflow');
+  }
+
+  function onOpenPopup(evt) {
+    evt.preventDefault();
+    if (body.lastElementChild.matches('.film-details')) {
+      body.lastElementChild.remove();
+    }
+    body.appendChild(popupComponent.getElement());
+    body.classList.add('hide-overflow');
+    popupComponent.getElement().querySelector('.film-details__close-btn').addEventListener('click', onPopupClose);
+  }
+
+  [cardComponent.getElement().querySelector('img'),
+    cardComponent.getElement().querySelector('h3'),
+    cardComponent.getElement().querySelector('.film-card__comments'),
+  ].forEach((item) => item.addEventListener('click', onOpenPopup));
+};
 
 extraMovies.forEach((container) => {
   for (let i = 0; i < CART_AMOUNT_EXTRA; i++) {
-    render(container, createCardTemplate(filmsArray[getRandomInteger(0, CART_AMOUNT - 1)]));
+    renderFilm(container, filmsArray[getRandomInteger(0, CART_AMOUNT - 1)]);
   }
 });
 
-render(filmsList, createShowMoreBtnTemplate());
-render(footerStatistics, createFilmsAmountTemplate(CART_AMOUNT));
-const btnShoMore = document.querySelector('.films-list__show-more');
-btnShoMore.addEventListener('click', onBtnShowMoreClick);
+renderElement(footerStatistics, new FilmsAmountView(CART_AMOUNT).getElement());
 
-function onBtnShowMoreClick(evt) {
-  evt.preventDefault();
-  const max = lastShownFilmIndex + CART_ADDED >= filmsArray.length - 1 ? (filmsArray.length - 1 - lastShownFilmIndex) : CART_ADDED;
-  for (let i = 0, j = lastShownFilmIndex; i < max; i++, j++) {
-    render(allMovies, createCardTemplate(filmsArray[j]));
-  }
-  lastShownFilmIndex += CART_ADDED;
-  if (lastShownFilmIndex === filmsArray.length - 1) {
-    evt.target.remove();
-  }
+for (let i = 0; i < Math.min(filmsArray.length, CART_START); i++) {
+  renderFilm(allMovies, filmsArray[i]);
 }
 
-const pageBody = document.body;
-render(pageBody, createPopupTemplate(filmsArray[0]));
+if (filmsArray.length > CART_START) {
+  let lastShownFilmNumber = CART_START;
+  const btnShowMore = new ShowMoreView().getElement();
+  renderElement(filmsList, btnShowMore, RenderPosition.BEFOREEND);
+
+  btnShowMore.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    const NumberOfAddedCard = lastShownFilmNumber + CART_ADDED >= filmsArray.length ? (filmsArray.length - lastShownFilmNumber) : CART_ADDED;
+    filmsArray.slice(lastShownFilmNumber, lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
+      renderFilm(allMovies, film);
+      lastShownFilmNumber++;
+    });
+    if(lastShownFilmNumber === filmsArray.length){
+      btnShowMore.remove();
+    }
+  });
+}
+

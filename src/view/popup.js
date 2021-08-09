@@ -2,8 +2,9 @@ import {humanizeDate} from '../utils';
 import {humanizeRuntime} from '../utils';
 import dayjs from 'dayjs';
 import {emotions} from '../utils';
+import {createElement} from '../utils';
 
-export const createPopupTemplate = (film = {}) => {
+const createPopupTemplate = (film = {}) => {
   const {comments, userInfo, filmInfo} = film;
   const {isWatchList, isWatched, isFavorite} = userInfo;
   const {
@@ -126,3 +127,25 @@ export const createPopupTemplate = (film = {}) => {
   </form>
 </section>`;
 };
+
+export default class Popup {
+  constructor(film) {
+    this._element = null;
+    this._film = film;
+  }
+
+  getTemplate() {
+    return createPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

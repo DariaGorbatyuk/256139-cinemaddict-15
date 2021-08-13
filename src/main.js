@@ -11,13 +11,13 @@ import {getRandomInteger, renderElement, RenderPosition} from './utils';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
-const CART_AMOUNT = 6;
-const CART_START = 5;
-const CART_ADDED = 5;
-const CART_AMOUNT_EXTRA = 2;
+const CARD_AMOUNT = 6;
+const CARD_START = 5;
+const CARD_ADDED = 5;
+const CARD_AMOUNT_EXTRA = 2;
 const body = document.body;
 
-const filmsArray = new Array(CART_AMOUNT).fill().map(createFilm);
+const filmsArray = new Array(CARD_AMOUNT).fill().map(createFilm);
 
 
 renderElement(header, new UserView().getElement(), RenderPosition.BEFOREEND);
@@ -60,25 +60,25 @@ const renderFilm = (filmsContainer, film) => {
 };
 
 extraMovies.forEach((container) => {
-  for (let i = 0; i < CART_AMOUNT_EXTRA; i++) {
-    renderFilm(container, filmsArray[getRandomInteger(0, CART_AMOUNT - 1)]);
+  for (let i = 0; i < CARD_AMOUNT_EXTRA; i++) {
+    renderFilm(container, filmsArray[getRandomInteger(0, CARD_AMOUNT - 1)]);
   }
 });
 
-renderElement(footerStatistics, new FilmsAmountView(CART_AMOUNT).getElement());
+renderElement(footerStatistics, new FilmsAmountView(CARD_AMOUNT).getElement());
 
-for (let i = 0; i < Math.min(filmsArray.length, CART_START); i++) {
+for (let i = 0; i < Math.min(filmsArray.length, CARD_START); i++) {
   renderFilm(allMovies, filmsArray[i]);
 }
 
-if (filmsArray.length > CART_START) {
-  let lastShownFilmNumber = CART_START;
+if (filmsArray.length > CARD_START) {
+  let lastShownFilmNumber = CARD_START;
   const btnShowMore = new ShowMoreView().getElement();
   renderElement(filmsList, btnShowMore, RenderPosition.BEFOREEND);
 
   btnShowMore.addEventListener('click', (evt) => {
     evt.preventDefault();
-    const NumberOfAddedCard = lastShownFilmNumber + CART_ADDED >= filmsArray.length ? (filmsArray.length - lastShownFilmNumber) : CART_ADDED;
+    const NumberOfAddedCard = lastShownFilmNumber + CARD_ADDED >= filmsArray.length ? (filmsArray.length - lastShownFilmNumber) : CARD_ADDED;
     filmsArray.slice(lastShownFilmNumber, lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
       renderFilm(allMovies, film);
       lastShownFilmNumber++;

@@ -8,7 +8,7 @@ import FilmsAmountView from './view/filmsAmount';
 import PopupView from './view/popup';
 import {createFilm} from './mock/film';
 import {getRandomInteger} from './utils/common';
-import {renderElement, RenderPosition} from './utils/render';
+import {renderElement, RenderPosition, remove} from './utils/render';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
@@ -21,10 +21,10 @@ const body = document.body;
 const filmsArray = new Array(CARD_AMOUNT).fill().map(createFilm);
 
 
-renderElement(header, new UserView().getElement(), RenderPosition.BEFOREEND);
-renderElement(main, new MenuView(filmsArray).getElement(), RenderPosition.BEFOREEND);
-renderElement(main, new SortMenuView().getElement(), RenderPosition.BEFOREEND);
-renderElement(main, new FilmsContainerView().getElement(), RenderPosition.BEFOREEND);
+renderElement(header, new UserView(), RenderPosition.BEFOREEND);
+renderElement(main, new MenuView(filmsArray), RenderPosition.BEFOREEND);
+renderElement(main, new SortMenuView(), RenderPosition.BEFOREEND);
+renderElement(main, new FilmsContainerView(), RenderPosition.BEFOREEND);
 
 const filmsListContainers = document.querySelectorAll('.films-list__container');
 const filmsList = document.querySelector('.films-list');
@@ -36,16 +36,16 @@ const renderFilm = (filmsContainer, film) => {
   const cardComponent = new CardView(film);
   const popupComponent = new PopupView(film);
 
-  renderElement(filmsContainer, cardComponent.getElement(), RenderPosition.BEFOREEND);
+  renderElement(filmsContainer, cardComponent, RenderPosition.BEFOREEND);
 
   cardComponent.setOpenPopupOpenHandler(()=>{
     if (body.lastElementChild.matches('.film-details')) {
       body.lastElementChild.remove();
     }
-    body.appendChild(popupComponent.getElement());
+    renderElement(body, popupComponent, RenderPosition.BEFOREEND);
     body.classList.add('hide-overflow');
     popupComponent.setPopupCloseHandler(()=>{
-      body.removeChild(popupComponent.getElement());
+      remove(popupComponent);
       body.classList.remove('hide-overflow');
     });
   });
@@ -57,7 +57,7 @@ extraMovies.forEach((container) => {
   }
 });
 
-renderElement(footerStatistics, new FilmsAmountView(CARD_AMOUNT).getElement());
+renderElement(footerStatistics, new FilmsAmountView(CARD_AMOUNT), RenderPosition.BEFOREEND);
 
 for (let i = 0; i < Math.min(filmsArray.length, CARD_START); i++) {
   renderFilm(allMovies, filmsArray[i]);
@@ -66,7 +66,7 @@ for (let i = 0; i < Math.min(filmsArray.length, CARD_START); i++) {
 if (filmsArray.length > CARD_START) {
   let lastShownFilmNumber = CARD_START;
   const btnShowMore = new ShowMoreView();
-  renderElement(filmsList, btnShowMore.getElement(), RenderPosition.BEFOREEND);
+  renderElement(filmsList, btnShowMore, RenderPosition.BEFOREEND);
 
   btnShowMore.setClickHandler(() => {
     const NumberOfAddedCard = lastShownFilmNumber + CARD_ADDED >= filmsArray.length ? (filmsArray.length - lastShownFilmNumber) : CARD_ADDED;
@@ -75,7 +75,7 @@ if (filmsArray.length > CARD_START) {
       lastShownFilmNumber++;
     });
     if(lastShownFilmNumber === filmsArray.length){
-      btnShowMore.getElement().remove();
+      remove(btnShowMore);
     }
   });
 }

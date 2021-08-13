@@ -37,19 +37,16 @@ const renderFilm = (filmsContainer, film) => {
 
   renderElement(filmsContainer, cardComponent.getElement(), RenderPosition.BEFOREEND);
 
-  function onPopupClose(evt) {
-    evt.preventDefault();
-    body.removeChild(popupComponent.getElement());
-    body.classList.remove('hide-overflow');
-  }
-
-  cardComponent.setOpenPopupClickHandler(()=>{
+  cardComponent.setOpenPopupOpenHandler(()=>{
     if (body.lastElementChild.matches('.film-details')) {
       body.lastElementChild.remove();
     }
     body.appendChild(popupComponent.getElement());
     body.classList.add('hide-overflow');
-    popupComponent.getElement().querySelector('.film-details__close-btn').addEventListener('click', onPopupClose);
+    popupComponent.setPopupCloseHandler(()=>{
+      body.removeChild(popupComponent.getElement());
+      body.classList.remove('hide-overflow');
+    });
   });
 };
 

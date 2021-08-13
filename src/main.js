@@ -7,7 +7,8 @@ import ShowMoreView from './view/showMore';
 import FilmsAmountView from './view/filmsAmount';
 import PopupView from './view/popup';
 import {createFilm} from './mock/film';
-import {getRandomInteger, renderElement, RenderPosition} from './utils';
+import {getRandomInteger} from './utils/common';
+import {renderElement, RenderPosition} from './utils/render';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');

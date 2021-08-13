@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import AbstractView from './abstract';
-import {humanizeRuntime} from '../utils';
+import {humanizeRuntime} from '../utils/card';
 
 const createCardTemplate = (film = {}) => {
   const {comments, userInfo, filmInfo} = film;

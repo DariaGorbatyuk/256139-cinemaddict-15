@@ -1,7 +1,5 @@
-import {humanizeDate} from '../utils';
-import {humanizeRuntime} from '../utils';
+import {humanizeDate, humanizeRuntime, emotions} from '../utils/card';
 import dayjs from 'dayjs';
-import {emotions} from '../utils';
 import AbstractView from './abstract';
 
 const createPopupTemplate = (film = {}) => {

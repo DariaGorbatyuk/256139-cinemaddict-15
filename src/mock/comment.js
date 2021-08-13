@@ -1,6 +1,6 @@
-import {getRandomInteger} from '../utils';
+import {getRandomInteger} from '../utils/common';
 import dayjs from 'dayjs';
-import {emotions} from '../utils';
+import {emotions} from '../utils/card';
 
 const names = ['Erich von Stroheim', 'Mary Beth', 'Dan Duryea', 'Richard Weil', 'Anne Wigton', 'Heinz Herald'];
 const commentsList = ['Awesome!', 'Interesting setting and a good cast.', 'Almost two hours? Seriously?', 'Boooooring('];

@@ -73,18 +73,17 @@ for (let i = 0; i < Math.min(filmsArray.length, CARD_START); i++) {
 
 if (filmsArray.length > CARD_START) {
   let lastShownFilmNumber = CARD_START;
-  const btnShowMore = new ShowMoreView().getElement();
-  renderElement(filmsList, btnShowMore, RenderPosition.BEFOREEND);
+  const btnShowMore = new ShowMoreView();
+  renderElement(filmsList, btnShowMore.getElement(), RenderPosition.BEFOREEND);
 
-  btnShowMore.addEventListener('click', (evt) => {
-    evt.preventDefault();
+  btnShowMore.setClickHandler(() => {
     const NumberOfAddedCard = lastShownFilmNumber + CARD_ADDED >= filmsArray.length ? (filmsArray.length - lastShownFilmNumber) : CARD_ADDED;
     filmsArray.slice(lastShownFilmNumber, lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
       renderFilm(allMovies, film);
       lastShownFilmNumber++;
     });
     if(lastShownFilmNumber === filmsArray.length){
-      btnShowMore.remove();
+      btnShowMore.getElement().remove();
     }
   });
 }

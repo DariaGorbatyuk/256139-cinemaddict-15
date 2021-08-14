@@ -1,5 +1,4 @@
-import {getRandomInteger} from '../utils';
-import {getRandomFloat} from '../utils';
+import {getRandomInteger, getRandomFloat} from '../utils/common';
 import {createComment} from './comment';
 
 const films = [

@@ -1,8 +1,6 @@
-import {humanizeDate} from '../utils';
-import {humanizeRuntime} from '../utils';
+import {humanizeDate, humanizeRuntime, emotions} from '../utils/card';
 import dayjs from 'dayjs';
-import {emotions} from '../utils';
-import {createElement} from '../utils';
+import AbstractView from './abstract';
 
 const createPopupTemplate = (film = {}) => {
   const {comments, userInfo, filmInfo} = film;
@@ -128,24 +126,24 @@ const createPopupTemplate = (film = {}) => {
 </section>`;
 };
 
-export default class Popup {
+export default class Popup extends AbstractView {
   constructor(film) {
-    this._element = null;
+    super();
     this._film = film;
+    this._popupCloseHandler = this._popupCloseHandler.bind(this);
+  }
+
+  _popupCloseHandler(evt) {
+    evt.preventDefault();
+    this._callback.onPopupClose();
+  }
+
+  setPopupCloseHandler(callback) {
+    this._callback.onPopupClose = callback;
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._popupCloseHandler);
   }
 
   getTemplate() {
     return createPopupTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -17,11 +17,11 @@ const siteMainElement = document.querySelector('.main');
 const header = document.querySelector('.header');
 
 export default class FilmsList {
-  constructor() {
+  constructor(films) {
     this._renderedFilmsCount = FILMS_COUNT_PER_STEP;
-
+    this.films = films.slice();
     this.userComponent = new UserView();
-    this.menuComponent = new MenuView();
+    this.menuComponent = new MenuView(this.films);
     this.sortComponent = new SortMenuView();
     this.filmsConteinerComponent = new FilmsContainerView();
     this.filmsAmountComponent = new FilmsAmountView(this.films.length);
@@ -34,14 +34,10 @@ export default class FilmsList {
     this.filmsListMostCommented = null;
   }
 
-  init(films) {
-    this.films = films.slice();
+  init() {
     this._renderUserInfo();
     this._renderMenu();
-    this._renderFilmsContainer();
-
     this._renderBoard();
-
     this._renderFilmsAmount();
   }
 
@@ -113,6 +109,7 @@ export default class FilmsList {
       return;
     }
     this._renderSort();
+    this._renderFilmsContainer();
     this._renderFilmsList();
   }
 

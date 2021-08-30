@@ -66,7 +66,7 @@ export default class FilmsList {
 
     renderElement(this.filmsListContainer, cardComponent, RenderPosition.BEFOREEND);
 
-    cardComponent.setOpenPopupOpenHandler(() => {
+    cardComponent.setOpenPopupHandler(() => {
       if (document.body.lastElementChild.matches('.film-details')) {
         document.body.lastElementChild.remove();
       }
@@ -100,7 +100,6 @@ export default class FilmsList {
 
   _renderLoadMoreBtn() {
     renderElement(this.filmsList, this.btnShowMore, RenderPosition.BEFOREEND);
-
     this.btnShowMore.setClickHandler(this._handleLoadMoreBtnClick);
   }
 

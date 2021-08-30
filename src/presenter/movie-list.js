@@ -30,8 +30,7 @@ export default class FilmsList {
     this.header = header;
     this.filmsList = null;
     this.filmsListContainer = null;
-    this.filmsListTopRated = null;
-    this.filmsListMostCommented = null;
+    this.lastShownFilmNumber = CARD_START;
   }
 
   init() {
@@ -87,17 +86,16 @@ export default class FilmsList {
   }
 
   _renderLoadMoreBtn() {
-    let lastShownFilmNumber = CARD_START;
     const btnShowMore = new ShowMoreView();
     renderElement(this.filmsList, btnShowMore, RenderPosition.BEFOREEND);
 
     btnShowMore.setClickHandler(() => {
-      const NumberOfAddedCard = lastShownFilmNumber + CARD_ADDED >= this.films.length ? (this.films.length - lastShownFilmNumber) : CARD_ADDED;
-      this.films.slice(lastShownFilmNumber, lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
+      const NumberOfAddedCard = this.lastShownFilmNumber + CARD_ADDED >= this.films.length ? (this.films.length - this.lastShownFilmNumber) : CARD_ADDED;
+      this.films.slice(this.lastShownFilmNumber, this.lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
         this._renderFilmsCard(film);
-        lastShownFilmNumber++;
+        this.lastShownFilmNumber++;
       });
-      if (lastShownFilmNumber === this.films.length) {
+      if (this.lastShownFilmNumber === this.films.length) {
         remove(btnShowMore);
       }
     });

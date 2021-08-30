@@ -9,8 +9,8 @@ import PopupView from '../view/popup';
 import NoFilmsView from '../view/no-film';
 import {renderElement, RenderPosition, remove} from '../utils/render';
 
-const CARD_AMOUNT = 6;
 const CARD_START = 5;
+const CARD_ADDED = 5;
 const FILMS_COUNT_PER_STEP = 5;
 
 const siteMainElement = document.querySelector('.main');
@@ -19,15 +19,13 @@ const header = document.querySelector('.header');
 export default class FilmsList {
   constructor() {
     this._renderedFilmsCount = FILMS_COUNT_PER_STEP;
-    this._renderedFilmsExtraCount = EXTRA_FILMS_COUNT;
 
-    this.userComponent = new UserView;
-    this.menuComponent = new MenuView;
-    this.sortComponent = new SortMenuView;
-    this.filmsConteinerComponent = new FilmsContainerView;
-    this.showMoreBtnComponent = new ShowMoreView;
-    this.filmsAmountComponent = new FilmsAmountView;
-    this.noFilmsComponent = new NoFilmsView;
+    this.userComponent = new UserView();
+    this.menuComponent = new MenuView();
+    this.sortComponent = new SortMenuView();
+    this.filmsConteinerComponent = new FilmsContainerView();
+    this.filmsAmountComponent = new FilmsAmountView(this.films.length);
+    this.noFilmsComponent = new NoFilmsView();
     this.siteMainElement = siteMainElement;
     this.header = header;
     this.filmsList = null;
@@ -43,6 +41,8 @@ export default class FilmsList {
     this._renderFilmsContainer();
 
     this._renderBoard();
+
+    this._renderFilmsAmount();
   }
 
   _renderUserInfo() {
@@ -69,13 +69,13 @@ export default class FilmsList {
 
     renderElement(this.filmsListContainer, cardComponent, RenderPosition.BEFOREEND);
 
-    cardComponent.setOpenPopupOpenHandler(()=>{
+    cardComponent.setOpenPopupOpenHandler(() => {
       if (document.body.lastElementChild.matches('.film-details')) {
         document.body.lastElementChild.remove();
       }
       renderElement(document.body, popupComponent, RenderPosition.BEFOREEND);
       document.body.classList.add('hide-overflow');
-      popupComponent.setPopupCloseHandler(()=>{
+      popupComponent.setPopupCloseHandler(() => {
         remove(popupComponent);
         document.body.classList.remove('hide-overflow');
       });
@@ -83,7 +83,7 @@ export default class FilmsList {
   }
 
   _renderFilmsCards(from, to) {
-    this.films.slice(from, to).forEach((film)=>this._renderFilmsCard(film));
+    this.films.slice(from, to).forEach((film) => this._renderFilmsCard(film));
   }
 
   _renderNoFilms() {
@@ -91,18 +91,41 @@ export default class FilmsList {
   }
 
   _renderLoadMoreBtn() {
-    renderElement(this.filmsList, this.showMoreBtnComponent, RenderPosition.BEFOREEND);
+    let lastShownFilmNumber = CARD_START;
+    const btnShowMore = new ShowMoreView();
+    renderElement(this.filmsList, btnShowMore, RenderPosition.BEFOREEND);
+
+    btnShowMore.setClickHandler(() => {
+      const NumberOfAddedCard = lastShownFilmNumber + CARD_ADDED >= this.films.length ? (this.films.length - lastShownFilmNumber) : CARD_ADDED;
+      this.films.slice(lastShownFilmNumber, lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
+        this._renderFilmsCard(film);
+        lastShownFilmNumber++;
+      });
+      if (lastShownFilmNumber === this.films.length) {
+        remove(btnShowMore);
+      }
+    });
   }
 
   _renderBoard() {
     if (this.films.length === 0) {
       this._renderNoFilms();
+      return;
     }
+    this._renderSort();
+    this._renderFilmsList();
+  }
 
+  _renderFilmsList() {
     this._renderFilmsCards(0, Math.min(this.films.length, CARD_START));
 
     if (this.films.length > CARD_START) {
       this._renderLoadMoreBtn();
     }
+  }
+
+  _renderFilmsAmount() {
+    const footerStatistics = document.querySelector('.footer__statistics');
+    renderElement(footerStatistics, this.filmsAmountComponent, RenderPosition.BEFOREEND);
   }
 }

@@ -12,7 +12,6 @@ import {renderElement, RenderPosition, remove} from '../utils/render';
 const CARD_AMOUNT = 6;
 const CARD_START = 5;
 const FILMS_COUNT_PER_STEP = 5;
-const EXTRA_FILMS_COUNT = 2;
 
 const siteMainElement = document.querySelector('.main');
 const header = document.querySelector('.header');

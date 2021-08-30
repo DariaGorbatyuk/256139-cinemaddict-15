@@ -26,11 +26,13 @@ export default class FilmsList {
     this.filmsConteinerComponent = new FilmsContainerView();
     this.filmsAmountComponent = new FilmsAmountView(this.films.length);
     this.noFilmsComponent = new NoFilmsView();
+    this.btnShowMore = new ShowMoreView();
     this.siteMainElement = siteMainElement;
     this.header = header;
     this.filmsList = null;
     this.filmsListContainer = null;
     this.lastShownFilmNumber = CARD_START;
+    this._handleLoadMoreBtnClick = this._handleLoadMoreBtnClick.bind(this);
   }
 
   init() {
@@ -85,20 +87,21 @@ export default class FilmsList {
     renderElement(this.filmsList, this.noFilmsComponent, RenderPosition.BEFOREEND);
   }
 
-  _renderLoadMoreBtn() {
-    const btnShowMore = new ShowMoreView();
-    renderElement(this.filmsList, btnShowMore, RenderPosition.BEFOREEND);
-
-    btnShowMore.setClickHandler(() => {
-      const NumberOfAddedCard = this.lastShownFilmNumber + CARD_ADDED >= this.films.length ? (this.films.length - this.lastShownFilmNumber) : CARD_ADDED;
-      this.films.slice(this.lastShownFilmNumber, this.lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
-        this._renderFilmsCard(film);
-        this.lastShownFilmNumber++;
-      });
-      if (this.lastShownFilmNumber === this.films.length) {
-        remove(btnShowMore);
-      }
+  _handleLoadMoreBtnClick() {
+    const NumberOfAddedCard = this.lastShownFilmNumber + CARD_ADDED >= this.films.length ? (this.films.length - this.lastShownFilmNumber) : CARD_ADDED;
+    this.films.slice(this.lastShownFilmNumber, this.lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
+      this._renderFilmsCard(film);
+      this.lastShownFilmNumber++;
     });
+    if (this.lastShownFilmNumber === this.films.length) {
+      remove(this.btnShowMore);
+    }
+  }
+
+  _renderLoadMoreBtn() {
+    renderElement(this.filmsList, this.btnShowMore, RenderPosition.BEFOREEND);
+
+    this.btnShowMore.setClickHandler(this._handleLoadMoreBtnClick);
   }
 
   _renderBoard() {

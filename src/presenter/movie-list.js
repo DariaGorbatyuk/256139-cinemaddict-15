@@ -63,8 +63,23 @@ export default class FilmsList {
     this.filmsListContainer = document.querySelector('.films-list__container');
   }
 
-  _renderFilmsCard() {
+  _renderFilmsCard(film) {
+    const cardComponent = new CardView(film);
+    const popupComponent = new PopupView(film);
 
+    renderElement(this.filmsListContainer, cardComponent, RenderPosition.BEFOREEND);
+
+    cardComponent.setOpenPopupOpenHandler(()=>{
+      if (document.body.lastElementChild.matches('.film-details')) {
+        document.body.lastElementChild.remove();
+      }
+      renderElement(document.body, popupComponent, RenderPosition.BEFOREEND);
+      document.body.classList.add('hide-overflow');
+      popupComponent.setPopupCloseHandler(()=>{
+        remove(popupComponent);
+        document.body.classList.remove('hide-overflow');
+      });
+    });
   }
 
   _renderFilmsCards(from, to) {
@@ -84,7 +99,7 @@ export default class FilmsList {
       this._renderNoFilms();
     }
 
-    this._renderFilmsCard(0, Math.min(this.films.length, CARD_START));
+    this._renderFilmsCards(0, Math.min(this.films.length, CARD_START));
 
     if (this.films.length > CARD_START) {
       this._renderLoadMoreBtn();

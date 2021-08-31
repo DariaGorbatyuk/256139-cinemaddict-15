@@ -1,5 +1,6 @@
 import {getRandomInteger, getRandomFloat} from '../utils/common';
 import {createComment} from './comment';
+import {nanoid} from 'nanoid';
 
 const films = [
   {
@@ -44,6 +45,7 @@ export const createFilm = () => {
   const watchedDate = watched ? new Date(getRandomInteger(2000, 2020), getRandomInteger(0, 11), getRandomInteger(0, 30)) : null;
   const comments = new Array(getRandomInteger(0, 5)).fill().map(createComment);
   return {
+    id: nanoid(),
     comments: comments,
     userInfo: {
       isWatchList: Boolean(getRandomInteger(0, 1)),

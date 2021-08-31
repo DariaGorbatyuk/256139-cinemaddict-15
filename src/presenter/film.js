@@ -11,6 +11,8 @@ export default class Film {
     this._handlerOpenPopup = this._handlerOpenPopup.bind(this);
     this._handlerClosePopup = this._handlerClosePopup.bind(this);
     this._handleAddToFavoriteClick = this._handleAddToFavoriteClick.bind(this);
+    this._handleAddToWatchlistClick = this._handleAddToWatchlistClick.bind(this);
+    this._handleAlreadyWatchedClick = this._handleAlreadyWatchedClick.bind(this);
   }
 
   init(film) {
@@ -23,6 +25,8 @@ export default class Film {
 
     this._cardComponent.setOpenPopupHandler(this._handlerOpenPopup);
     this._cardComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
+    this._cardComponent.setToWatchListClickHandler(this._handleAddToWatchlistClick);
+    this._cardComponent.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
     if (prevCardComponent === null) {
       renderElement(this._filmContainer, this._cardComponent, RenderPosition.BEFOREEND);
       return;
@@ -39,6 +43,26 @@ export default class Film {
   destroy() {
     remove(this._cardComponent);
     remove(this._popupComponent);
+  }
+
+  _handleAddToWatchlistClick() {
+    this._changeData(Object.assign(
+      {},
+      this._film,
+      {
+        userInfo:
+          {isWatchList: !this._film.userInfo.isWatchList},
+      }));
+  }
+
+  _handleAlreadyWatchedClick() {
+    this._changeData(Object.assign(
+      {},
+      this._film,
+      {
+        userInfo:
+          {isWatched: !this._film.userInfo.isWatched},
+      }));
   }
 
   _handleAddToFavoriteClick() {

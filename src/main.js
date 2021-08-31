@@ -1,5 +1,5 @@
 import {createFilm} from './mock/film';
-import FilmsList from './presenter/movie-list';
+import FilmsList from './presenter/film-list';
 
 const CARD_AMOUNT = 10;
 

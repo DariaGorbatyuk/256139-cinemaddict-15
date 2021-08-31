@@ -16,21 +16,21 @@ const header = document.querySelector('.header');
 
 export default class FilmsList {
   constructor(films) {
-    this.CARD_START = CARD_START;
-    this.CARD_ADDED = CARD_ADDED;
-    this.films = films.slice();
-    this.userComponent = new UserView();
-    this.menuComponent = new MenuView(this.films);
-    this.sortComponent = new SortMenuView();
-    this.filmsConteinerComponent = new FilmsContainerView();
-    this.filmsAmountComponent = new FilmsAmountView(this.films.length);
-    this.noFilmsComponent = new NoFilmsView();
-    this.btnShowMore = new ShowMoreView();
-    this.siteMainElement = siteMainElement;
-    this.header = header;
-    this.filmsList = null;
-    this.filmsListContainer = null;
-    this.lastShownFilmNumber = this.CARD_START;
+    this._CARD_START = CARD_START;
+    this._CARD_ADDED = CARD_ADDED;
+    this._films = films.slice();
+    this._userComponent = new UserView();
+    this._menuComponent = new MenuView(this._films);
+    this._sortComponent = new SortMenuView();
+    this._filmsConteinerComponent = new FilmsContainerView();
+    this._filmsAmountComponent = new FilmsAmountView(this._films.length);
+    this._noFilmsComponent = new NoFilmsView();
+    this._btnShowMore = new ShowMoreView();
+    this._siteMainElement = siteMainElement;
+    this._header = header;
+    this._filmsList = null;
+    this._filmsListContainer = null;
+    this._lastShownFilmNumber = this._CARD_START;
     this._handleLoadMoreBtnClick = this._handleLoadMoreBtnClick.bind(this);
   }
 
@@ -42,54 +42,54 @@ export default class FilmsList {
   }
 
   _renderUserInfo() {
-    renderElement(this.header, this.userComponent, RenderPosition.BEFOREEND);
+    renderElement(this._header, this._userComponent, RenderPosition.BEFOREEND);
   }
 
   _renderMenu() {
-    renderElement(this.siteMainElement, this.menuComponent, RenderPosition.BEFOREEND);
+    renderElement(this._siteMainElement, this._menuComponent, RenderPosition.BEFOREEND);
   }
 
   _renderSort() {
-    renderElement(this.siteMainElement, this.sortComponent, RenderPosition.BEFOREEND);
+    renderElement(this._siteMainElement, this._sortComponent, RenderPosition.BEFOREEND);
   }
 
   _renderFilmsContainer() {
-    renderElement(this.siteMainElement, this.filmsConteinerComponent, RenderPosition.BEFOREEND);
-    this.filmsList = document.querySelector('.films-list');
-    this.filmsListContainer = document.querySelector('.films-list__container');
+    renderElement(this._siteMainElement, this._filmsConteinerComponent, RenderPosition.BEFOREEND);
+    this._filmsList = document.querySelector('.films-list');
+    this._filmsListContainer = document.querySelector('.films-list__container');
   }
 
   _renderFilmsCard(film) {
-    const filmPresenter = new FilmPresenter(this.filmsListContainer);
+    const filmPresenter = new FilmPresenter(this._filmsListContainer);
     filmPresenter.init(film);
   }
 
   _renderFilmsCards(from, to) {
-    this.films.slice(from, to).forEach((film) => this._renderFilmsCard(film));
+    this._films.slice(from, to).forEach((film) => this._renderFilmsCard(film));
   }
 
   _renderNoFilms() {
-    renderElement(this.filmsList, this.noFilmsComponent, RenderPosition.BEFOREEND);
+    renderElement(this._filmsList, this._noFilmsComponent, RenderPosition.BEFOREEND);
   }
 
   _handleLoadMoreBtnClick() {
-    const NumberOfAddedCard = this.lastShownFilmNumber + this.CARD_ADDED >= this.films.length ? (this.films.length - this.lastShownFilmNumber) : this.CARD_ADDED;
-    this.films.slice(this.lastShownFilmNumber, this.lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
+    const NumberOfAddedCard = this._lastShownFilmNumber + this._CARD_ADDED >= this._films.length ? (this._films.length - this._lastShownFilmNumber) : this._CARD_ADDED;
+    this._films.slice(this._lastShownFilmNumber, this._lastShownFilmNumber + NumberOfAddedCard).forEach((film) => {
       this._renderFilmsCard(film);
-      this.lastShownFilmNumber++;
+      this._lastShownFilmNumber++;
     });
-    if (this.lastShownFilmNumber === this.films.length) {
-      remove(this.btnShowMore);
+    if (this._lastShownFilmNumber === this._films.length) {
+      remove(this._btnShowMore);
     }
   }
 
   _renderLoadMoreBtn() {
-    renderElement(this.filmsList, this.btnShowMore, RenderPosition.BEFOREEND);
-    this.btnShowMore.setClickHandler(this._handleLoadMoreBtnClick);
+    renderElement(this._filmsList, this._btnShowMore, RenderPosition.BEFOREEND);
+    this._btnShowMore.setClickHandler(this._handleLoadMoreBtnClick);
   }
 
   _renderBoard() {
-    if (this.films.length === 0) {
+    if (this._films.length === 0) {
       this._renderNoFilms();
       return;
     }
@@ -99,15 +99,15 @@ export default class FilmsList {
   }
 
   _renderFilmsList() {
-    this._renderFilmsCards(0, Math.min(this.films.length, this.CARD_START));
+    this._renderFilmsCards(0, Math.min(this._films.length, this._CARD_START));
 
-    if (this.films.length > this.CARD_START) {
+    if (this._films.length > this._CARD_START) {
       this._renderLoadMoreBtn();
     }
   }
 
   _renderFilmsAmount() {
     const footerStatistics = document.querySelector('.footer__statistics');
-    renderElement(footerStatistics, this.filmsAmountComponent, RenderPosition.BEFOREEND);
+    renderElement(footerStatistics, this._filmsAmountComponent, RenderPosition.BEFOREEND);
   }
 }

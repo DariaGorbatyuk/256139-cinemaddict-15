@@ -35,6 +35,7 @@ export default class Card extends AbstractView {
     super();
     this._film = film;
     this._openPopupHandler = this._openPopupHandler.bind(this);
+    this._addToFavoriteHandler = this._addToFavoriteHandler.bind(this);
   }
 
   _openPopupHandler(evt) {
@@ -51,5 +52,15 @@ export default class Card extends AbstractView {
 
   getTemplate() {
     return createCardTemplate(this._film);
+  }
+
+  _addToFavoriteHandler(evt) {
+    evt.preventDefault();
+    this._callback.onAddToFavorite();
+  }
+
+  setToFavoriteClickHandler(callback) {
+    this._callback.onAddToFavorite = callback;
+    this.getElement().querySelector('.film-card__controls-item--favorite').addEventListener('click', this._addToFavoriteHandler);
   }
 }

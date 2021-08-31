@@ -3,12 +3,14 @@ import PopupView from '../view/popup';
 import {renderElement, RenderPosition, remove, replace} from '../utils/render';
 
 export default class Film {
-  constructor(filmContainer) {
+  constructor(filmContainer, changeData) {
     this._filmContainer = filmContainer;
     this._cardComponent = null;
     this._popupComponent = null;
+    this._changeData = changeData;
     this._handlerOpenPopup = this._handlerOpenPopup.bind(this);
     this._handlerClosePopup = this._handlerClosePopup.bind(this);
+    this._handleAddToFavoriteClick = this._handleAddToFavoriteClick.bind(this);
   }
 
   init(film) {
@@ -20,12 +22,13 @@ export default class Film {
     this._popupComponent = new PopupView(this._film);
 
     this._cardComponent.setOpenPopupHandler(this._handlerOpenPopup);
+    this._cardComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
     if (prevCardComponent === null) {
       renderElement(this._filmContainer, this._cardComponent, RenderPosition.BEFOREEND);
       return;
     }
 
-    if (this._filmContainer.getElement().contains(prevCardComponent.getElement())) {
+    if (this._filmContainer.contains(prevCardComponent.getElement())) {
       replace(this._cardComponent, prevCardComponent);
     }
 
@@ -36,6 +39,16 @@ export default class Film {
   destroy() {
     remove(this._cardComponent);
     remove(this._popupComponent);
+  }
+
+  _handleAddToFavoriteClick() {
+    this._changeData(Object.assign(
+      {},
+      this._film,
+      {
+        userInfo:
+          {isFavorite: !this._film.userInfo.isFavorite},
+      }));
   }
 
   _handlerOpenPopup() {

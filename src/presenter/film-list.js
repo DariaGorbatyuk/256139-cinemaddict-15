@@ -7,6 +7,7 @@ import FilmsAmountView from '../view/filmsAmount';
 import NoFilmsView from '../view/no-film';
 import FilmPresenter from './film';
 import {renderElement, RenderPosition, remove} from '../utils/render';
+import {updateItem} from '../utils/common';
 
 const CARD_START = 5;
 const CARD_ADDED = 5;
@@ -32,6 +33,7 @@ export default class FilmsList {
     this._filmsListContainer = null;
     this._lastShownFilmNumber = this._CARD_START;
     this._handleLoadMoreBtnClick = this._handleLoadMoreBtnClick.bind(this);
+    this._handleFilmChange = this._handleFilmChange.bind(this);
     this._filmPresenter = new Map();
   }
 
@@ -40,6 +42,11 @@ export default class FilmsList {
     this._renderMenu();
     this._renderBoard();
     this._renderFilmsAmount();
+  }
+
+  _handleFilmChange(updatedFilm) {
+    this._films = updateItem(this._films, updatedFilm);
+    this._filmPresenter.get(updatedFilm.id).init(updatedFilm);
   }
 
   _renderUserInfo() {
@@ -61,7 +68,7 @@ export default class FilmsList {
   }
 
   _renderFilmsCard(film) {
-    const filmPresenter = new FilmPresenter(this._filmsListContainer);
+    const filmPresenter = new FilmPresenter(this._filmsListContainer, this._handleFilmChange);
     filmPresenter.init(film);
     this._filmPresenter.set(film.id, filmPresenter);
   }
@@ -114,7 +121,7 @@ export default class FilmsList {
   }
 
   _clearFilmsList() {
-    this._filmPresenter.forEach((presenter)=>presenter.destroy());
+    this._filmPresenter.forEach((presenter) => presenter.destroy());
     this._filmPresenter.clear();
     this._lastShownFilmNumber = this._CARD_START;
     remove(this._btnShowMore);

@@ -32,6 +32,7 @@ export default class FilmsList {
     this._filmsListContainer = null;
     this._lastShownFilmNumber = this._CARD_START;
     this._handleLoadMoreBtnClick = this._handleLoadMoreBtnClick.bind(this);
+    this._filmPresenter = new Map();
   }
 
   init() {
@@ -62,6 +63,7 @@ export default class FilmsList {
   _renderFilmsCard(film) {
     const filmPresenter = new FilmPresenter(this._filmsListContainer);
     filmPresenter.init(film);
+    this._filmPresenter.set(film.id, filmPresenter);
   }
 
   _renderFilmsCards(from, to) {
@@ -109,5 +111,12 @@ export default class FilmsList {
   _renderFilmsAmount() {
     const footerStatistics = document.querySelector('.footer__statistics');
     renderElement(footerStatistics, this._filmsAmountComponent, RenderPosition.BEFOREEND);
+  }
+
+  _clearFilmsList() {
+    this._filmPresenter.forEach((presenter)=>presenter.destroy());
+    this._filmPresenter.clear();
+    this._lastShownFilmNumber = this._CARD_START;
+    remove(this._btnShowMore);
   }
 }

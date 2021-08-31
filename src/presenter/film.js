@@ -35,6 +35,11 @@ export default class Film {
     this._cardComponent.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
     this._cardComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
 
+    this._popupComponent.setPopupCloseHandler(this._handlerClosePopup);
+    this._popupComponent.setToWatchListClickHandler(this._handleAddToWatchlistClick);
+    this._popupComponent.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
+    this._popupComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
+
     if (prevCardComponent === null) {
       renderElement(this._filmContainer, this._cardComponent, RenderPosition.BEFOREEND);
       return;
@@ -93,10 +98,6 @@ export default class Film {
     this._changeMode();
     this.mode = Mode.DETAILS;
     document.body.classList.add('hide-overflow');
-    this._popupComponent.setPopupCloseHandler(this._handlerClosePopup);
-    this._popupComponent.setToWatchListClickHandler(this._handleAddToWatchlistClick);
-    this._popupComponent.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
-    this._popupComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
     renderElement(document.body, this._popupComponent, RenderPosition.BEFOREEND);
   }
 

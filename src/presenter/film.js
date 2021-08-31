@@ -2,12 +2,18 @@ import CardView from '../view/card';
 import PopupView from '../view/popup';
 import {renderElement, RenderPosition, remove, replace} from '../utils/render';
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  DETAILS: 'DETAILS',
+};
 export default class Film {
-  constructor(filmContainer, changeData) {
+  constructor(filmContainer, changeData, changeMode) {
     this._filmContainer = filmContainer;
     this._cardComponent = null;
     this._popupComponent = null;
     this._changeData = changeData;
+    this._changeMode = changeMode;
+    this.mode = Mode.DEFAULT;
     this._handlerOpenPopup = this._handlerOpenPopup.bind(this);
     this._handlerClosePopup = this._handlerClosePopup.bind(this);
     this._handleAddToFavoriteClick = this._handleAddToFavoriteClick.bind(this);
@@ -21,7 +27,6 @@ export default class Film {
     const prevPopupComponent = this._popupComponent;
 
     this._cardComponent = new CardView(this._film);
-
     this._popupComponent = new PopupView(this._film);
 
     this._cardComponent.setOpenPopupHandler(this._handlerOpenPopup);
@@ -30,21 +35,29 @@ export default class Film {
     this._cardComponent.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
     this._cardComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
 
-    this._popupComponent.setToWatchListClickHandler(this._handleAddToWatchlistClick);
-    this._popupComponent.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
-    this._popupComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
-
     if (prevCardComponent === null) {
       renderElement(this._filmContainer, this._cardComponent, RenderPosition.BEFOREEND);
       return;
     }
 
     if (this._filmContainer.contains(prevCardComponent.getElement())) {
+
       replace(this._cardComponent, prevCardComponent);
+
+      if (this.mode === Mode.DETAILS) {
+        replace(this._popupComponent, prevPopupComponent);
+      }
     }
 
     remove(prevCardComponent);
     remove(prevPopupComponent);
+  }
+
+  resetView() {
+    if (this.mode !== Mode.DEFAULT) {
+      this._handlerClosePopup();
+      this.mode = Mode.DEFAULT;
+    }
   }
 
   destroy() {
@@ -77,11 +90,13 @@ export default class Film {
   }
 
   _handlerOpenPopup() {
-    // if (document.body.contains(this._popupComponent.getElement())) {
-    //   this._popupComponent.remove();
-    // }
+    this._changeMode();
+    this.mode = Mode.DETAILS;
     document.body.classList.add('hide-overflow');
     this._popupComponent.setPopupCloseHandler(this._handlerClosePopup);
+    this._popupComponent.setToWatchListClickHandler(this._handleAddToWatchlistClick);
+    this._popupComponent.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
+    this._popupComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
     renderElement(document.body, this._popupComponent, RenderPosition.BEFOREEND);
   }
 

@@ -34,6 +34,7 @@ export default class FilmsList {
     this._lastShownFilmNumber = this._CARD_START;
     this._handleLoadMoreBtnClick = this._handleLoadMoreBtnClick.bind(this);
     this._handleFilmChange = this._handleFilmChange.bind(this);
+    this._handleChangeMode = this._handleChangeMode.bind(this);
     this._filmPresenter = new Map();
   }
 
@@ -67,8 +68,12 @@ export default class FilmsList {
     this._filmsListContainer = document.querySelector('.films-list__container');
   }
 
+  _handleChangeMode() {
+    this._filmPresenter.forEach((presenter) => presenter.resetView());
+  }
+
   _renderFilmsCard(film) {
-    const filmPresenter = new FilmPresenter(this._filmsListContainer, this._handleFilmChange);
+    const filmPresenter = new FilmPresenter(this._filmsListContainer, this._handleFilmChange, this._handleChangeMode);
     filmPresenter.init(film);
     this._filmPresenter.set(film.id, filmPresenter);
   }

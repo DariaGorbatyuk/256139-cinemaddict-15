@@ -8,6 +8,6 @@ const humanizeRuntime = (runtime) => {
   return `${hour}h ${minute}m`;
 };
 
-const emotions = ['smile', 'sleeping', 'puke', 'angry'];
+const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
 
-export {humanizeDate, humanizeRuntime, emotions};
+export {humanizeDate, humanizeRuntime, EMOTIONS};

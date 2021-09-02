@@ -1,6 +1,6 @@
 import {getRandomInteger} from '../utils/common';
 import dayjs from 'dayjs';
-import {emotions} from '../utils/card';
+import {EMOTIONS} from '../utils/card';
 
 const names = ['Erich von Stroheim', 'Mary Beth', 'Dan Duryea', 'Richard Weil', 'Anne Wigton', 'Heinz Herald'];
 const commentsList = ['Awesome!', 'Interesting setting and a good cast.', 'Almost two hours? Seriously?', 'Boooooring('];
@@ -17,5 +17,5 @@ export const createComment = () => ({
   author: names[getRandomInteger(0, names.length - 1)],
   comment: commentsList[getRandomInteger(0, commentsList.length - 1)],
   date: createCommentDate(),
-  emotion: emotions[getRandomInteger(0, emotions.length - 1)],
+  emotion: EMOTIONS[getRandomInteger(0, EMOTIONS.length - 1)],
 });

@@ -17,11 +17,18 @@ export default class SortMenu extends AbstractView {
     return createSortTemplate();
   }
 
+  _clearActiveClass() {
+    this.getElement().querySelectorAll('.sort__button')
+      .forEach((link) => link.classList.remove('sort__button--active'));
+  }
+
   _sortTypeChangeHandler(evt) {
     if (evt.target.tagName !== 'A') {
       return;
     }
     evt.preventDefault();
+    this._clearActiveClass();
+    evt.target.classList.add('sort__button--active');
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   }
 

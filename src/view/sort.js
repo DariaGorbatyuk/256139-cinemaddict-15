@@ -25,7 +25,7 @@ export default class SortMenu extends AbstractView {
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   }
 
-  setSortType(callback) {
+  setSortTypeChangeHandler(callback) {
     this._callback.sortTypeChange = callback;
     this.getElement().addEventListener('click', this._sortTypeChangeHandler);
   }

@@ -10,4 +10,12 @@ const humanizeRuntime = (runtime) => {
 
 const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
 
-export {humanizeDate, humanizeRuntime, EMOTIONS};
+const sortFilmByDate = (film1, film2) => {
+  const date2 = dayjs(film2.filmInfo.release.date);
+  const date1 = dayjs(film1.filmInfo.release.date);
+  return date2.diff(date1);
+};
+
+const sortFilmByRating = (film1, film2) => film2.filmInfo.rating - film1.filmInfo.rating;
+
+export {humanizeDate, humanizeRuntime, EMOTIONS, sortFilmByDate, sortFilmByRating};

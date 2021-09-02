@@ -95,6 +95,11 @@ export default class Film {
   }
 
   _handlerOpenPopup() {
+    this._popupComponent = new PopupView(this._film);
+    this._popupComponent.setPopupCloseHandler(this._handlerClosePopup);
+    this._popupComponent.setToWatchListClickHandler(this._handleAddToWatchlistClick);
+    this._popupComponent.setAlreadyWatchedClickHandler(this._handleAlreadyWatchedClick);
+    this._popupComponent.setToFavoriteClickHandler(this._handleAddToFavoriteClick);
     this._changeMode();
     this.mode = Mode.DETAILS;
     document.body.classList.add('hide-overflow');
@@ -104,5 +109,6 @@ export default class Film {
   _handlerClosePopup() {
     remove(this._popupComponent);
     document.body.classList.remove('hide-overflow');
+    this.mode = Mode.DEFAULT;
   }
 }

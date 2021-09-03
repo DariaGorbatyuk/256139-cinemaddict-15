@@ -4,15 +4,15 @@ import {replace} from '../utils/render';
 export default class Smart extends Abstract {
   constructor() {
     super();
-    this._data = {};
+    this._state = {};
   }
 
   updateState(update, justDataUpdating = false) {
     if (!update) {
       return;
     }
-    this._data = Object.assign({},
-      this._data,
+    this._state = Object.assign({},
+      this._state,
       update);
 
     if (justDataUpdating) {

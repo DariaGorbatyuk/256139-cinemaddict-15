@@ -1,6 +1,7 @@
 import {humanizeDate, humanizeRuntime, EMOTIONS} from '../utils/card';
 import dayjs from 'dayjs';
 import AbstractView from './abstract';
+import {replace} from '../utils/render';
 
 const createPopupTemplate = (data = {}) => {
   const {comments, userInfo, filmInfo, isComments} = data;
@@ -134,6 +135,13 @@ export default class Popup extends AbstractView {
     this._addToFavoriteHandler = this._addToFavoriteHandler.bind(this);
     this._addToWatchListHandler = this._addToWatchListHandler.bind(this);
     this._alreadyWatchedHandler = this._alreadyWatchedHandler.bind(this);
+  }
+
+  updateElement() {
+    const prevElement = this.getElement();
+    this.removeElement();
+    const newElement = this.getElement();
+    replace(newElement, prevElement);
   }
 
   static parseInformationToSate(film) {

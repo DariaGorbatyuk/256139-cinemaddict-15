@@ -2,6 +2,7 @@ import {humanizeDate, humanizeRuntime, EMOTIONS} from '../utils/card';
 import dayjs from 'dayjs';
 import AbstractView from './abstract';
 import {replace} from '../utils/render';
+import SmartView from "./smart";
 
 const createPopupTemplate = (data = {}) => {
   const {comments, userInfo, filmInfo, isComments, newCommentData, chosenEmoji} = data;
@@ -35,7 +36,6 @@ const createPopupTemplate = (data = {}) => {
     ['Country', release.releaseCountry],
     [genreKey, genre],
   ];
-  //chosenEmoji =  `<img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji">`;
 
   const createTableDate = () => tableData.map(([key, value]) => {
     value = Array.isArray(value) ? value.join(', ') : value;
@@ -127,7 +127,7 @@ const createPopupTemplate = (data = {}) => {
 </section>`;
 };
 
-export default class Popup extends AbstractView {
+export default class Popup extends SmartView {
   constructor(data) {
     super();
     this._data = Popup.parseInformationToSate(data);
@@ -139,21 +139,6 @@ export default class Popup extends AbstractView {
     this._chooseEmojiHandler = this._chooseEmojiHandler.bind(this);
 
     this._setInnerHandlers();
-  }
-
-  updateState(update, justDataUpdating = false) {
-    if (!update) {
-      return;
-    }
-    this._data = Object.assign({},
-      this._data,
-      update);
-
-    if (justDataUpdating) {
-      return;
-    }
-
-    this.updateElement();
   }
 
   _inputCommentTextAreaHandler(evt) {
@@ -186,14 +171,6 @@ export default class Popup extends AbstractView {
   restoreHandlers() {
     this._setInnerHandlers();
     this._setOuterHandlers();
-  }
-
-  updateElement() {
-    const prevElement = this.getElement();
-    this.removeElement();
-    const newElement = this.getElement();
-    replace(newElement, prevElement);
-    this.restoreHandlers();
   }
 
   static parseInformationToSate(film) {

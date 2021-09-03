@@ -4,7 +4,7 @@ import AbstractView from './abstract';
 import {replace} from '../utils/render';
 
 const createPopupTemplate = (data = {}) => {
-  const {comments, userInfo, filmInfo, isComments} = data;
+  const {comments, userInfo, filmInfo, isComments, newCommentData, chosenEmoji} = data;
   const {isWatchList, isWatched, isFavorite} = userInfo;
   const {
     title,
@@ -35,7 +35,7 @@ const createPopupTemplate = (data = {}) => {
     ['Country', release.releaseCountry],
     [genreKey, genre],
   ];
-
+  //chosenEmoji =  `<img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji">`;
 
   const createTableDate = () => tableData.map(([key, value]) => {
     value = Array.isArray(value) ? value.join(', ') : value;
@@ -70,7 +70,7 @@ const createPopupTemplate = (data = {}) => {
             <label class="film-details__emoji-label" for="emoji-${emotion}">
               <img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji">
             </label>`).join('\n');
-  const oldCommentBlock = isComments ? createOldCommentsBlock() : '';
+
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
@@ -111,11 +111,11 @@ const createPopupTemplate = (data = {}) => {
 
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        ${oldCommentBlock}
+        ${isComments ? createOldCommentsBlock() : ''}
         <div class="film-details__new-comment">
-          <div class="film-details__add-emoji-label"></div>
+          <div class="film-details__add-emoji-label">${chosenEmoji ? `<img src="./images/emoji/${chosenEmoji}.png" width="55" height="55" alt="emoji">` : ''}</div>
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newCommentData ? newCommentData : ''}</textarea>
           </label>
           <div class="film-details__emoji-list">
           ${createEmojiList()}
@@ -135,9 +135,13 @@ export default class Popup extends AbstractView {
     this._addToFavoriteHandler = this._addToFavoriteHandler.bind(this);
     this._addToWatchListHandler = this._addToWatchListHandler.bind(this);
     this._alreadyWatchedHandler = this._alreadyWatchedHandler.bind(this);
+    this._inputCommentTextAreaHandler = this._inputCommentTextAreaHandler.bind(this);
+    this._chooseEmojiHandler = this._chooseEmojiHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
-  updateState(update) {
+  updateState(update, justDataUpdating = false) {
     if (!update) {
       return;
     }
@@ -145,7 +149,43 @@ export default class Popup extends AbstractView {
       this._data,
       update);
 
+    if (justDataUpdating) {
+      return;
+    }
+
     this.updateElement();
+  }
+
+  _inputCommentTextAreaHandler(evt) {
+    evt.preventDefault();
+    this.updateState({
+      newCommentData: evt.target.value,
+    }, true);
+  }
+
+  _chooseEmojiHandler(evt) {
+    evt.preventDefault();
+    this.updateState({
+      chosenEmoji: evt.target.value,
+    });
+  }
+
+  _setInnerHandlers() {
+    this.getElement().querySelector('.film-details__comment-input').addEventListener('input', this._inputCommentTextAreaHandler);
+    this.getElement().querySelectorAll('.film-details__emoji-item')
+      .forEach((input) => input.addEventListener('click', this._chooseEmojiHandler));
+  }
+
+  _setOuterHandlers() {
+    this.setPopupCloseHandler(this._callback.onPopupClose);
+    this.setToWatchListClickHandler(this._callback.onAddToWatchList);
+    this.setAlreadyWatchedClickHandler(this._callback.onAlreadyWatched);
+    this.setToFavoriteClickHandler(this._callback.onAddToFavorite);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this._setOuterHandlers();
   }
 
   updateElement() {
@@ -153,6 +193,7 @@ export default class Popup extends AbstractView {
     this.removeElement();
     const newElement = this.getElement();
     replace(newElement, prevElement);
+    this.restoreHandlers();
   }
 
   static parseInformationToSate(film) {
@@ -165,6 +206,10 @@ export default class Popup extends AbstractView {
 
   static parseSateToInformation(state) {
     state = Object.assign({}, state);
+    delete state.isComments;
+    delete state.newCommentData;
+    delete state.chosenEmoji;
+    return state;
   }
 
   _popupCloseHandler(evt) {

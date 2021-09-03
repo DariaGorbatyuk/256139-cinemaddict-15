@@ -52,7 +52,7 @@ export default class FilmsList {
 
   _handleFilmChange(updatedFilm) {
     this._films = updateItem(this._films, updatedFilm);
-    this._sourcedFilms = updatedFilm(this._sourcedFilms, updatedFilm);
+    this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
     this._filmPresenter.get(updatedFilm.id).init(updatedFilm);
   }
 

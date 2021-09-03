@@ -137,6 +137,17 @@ export default class Popup extends AbstractView {
     this._alreadyWatchedHandler = this._alreadyWatchedHandler.bind(this);
   }
 
+  updateState(update) {
+    if (!update) {
+      return;
+    }
+    this._data = Object.assign({},
+      this._data,
+      update);
+
+    this.updateElement();
+  }
+
   updateElement() {
     const prevElement = this.getElement();
     this.removeElement();

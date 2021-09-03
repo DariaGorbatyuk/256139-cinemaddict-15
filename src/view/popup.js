@@ -1,11 +1,9 @@
 import {humanizeDate, humanizeRuntime, EMOTIONS} from '../utils/card';
 import dayjs from 'dayjs';
-import AbstractView from './abstract';
-import {replace} from '../utils/render';
-import SmartView from "./smart";
+import SmartView from './smart';
 
-const createPopupTemplate = (data = {}) => {
-  const {comments, userInfo, filmInfo, isComments, newCommentData, chosenEmoji} = data;
+const createPopupTemplate = (state = {}) => {
+  const {comments, userInfo, filmInfo, isComments, newCommentData, chosenEmoji} = state;
   const {isWatchList, isWatched, isFavorite} = userInfo;
   const {
     title,
@@ -128,9 +126,9 @@ const createPopupTemplate = (data = {}) => {
 };
 
 export default class Popup extends SmartView {
-  constructor(data) {
+  constructor(state) {
     super();
-    this._data = Popup.parseInformationToSate(data);
+    this._state = Popup.parseInformationToSate(state);
     this._popupCloseHandler = this._popupCloseHandler.bind(this);
     this._addToFavoriteHandler = this._addToFavoriteHandler.bind(this);
     this._addToWatchListHandler = this._addToWatchListHandler.bind(this);
@@ -200,7 +198,7 @@ export default class Popup extends SmartView {
   }
 
   getTemplate() {
-    return createPopupTemplate(this._data);
+    return createPopupTemplate(this._state);
   }
 
   _addToFavoriteHandler(evt) {

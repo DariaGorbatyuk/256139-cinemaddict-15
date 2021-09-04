@@ -2,8 +2,9 @@ import dayjs from 'dayjs';
 import AbstractView from './abstract';
 import {humanizeRuntime} from '../utils/card';
 
+const SHORT_DESCRIPTION_LENGTH = 139;
+
 const createCardTemplate = (film = {}) => {
-  const SHORT_DESCRIPTION_LENGTH = 139;
   const {comments, userInfo, filmInfo} = film;
   const {isWatchList, isWatched, isFavorite} = userInfo;
   const {title, rating, release, runtime, genre, poster, description} = filmInfo;
@@ -12,7 +13,7 @@ const createCardTemplate = (film = {}) => {
   const favoriteClass = isFavorite ? 'film-card__controls-item--active' : '';
   const releaseYear = dayjs(release.date).format('YYYY');
   const humanRuntime = humanizeRuntime(runtime);
-  const shortDescription = description.length > SHORT_DESCRIPTION_LENGTH ? `${description.slice(0, SHORT_DESCRIPTION_LENGTH)}...`: description;
+  const shortDescription = description.length > SHORT_DESCRIPTION_LENGTH ? `${description.slice(0, SHORT_DESCRIPTION_LENGTH)}...` : description;
   return `<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${rating}</p>

@@ -149,17 +149,23 @@ export default class Popup extends SmartView {
 
   _chooseEmojiHandler(evt) {
     evt.preventDefault();
-    this._scrollPosition = this.getElement().scrollTop;
+    this.setScrollPosition();
     this.updateState({
       chosenEmoji: evt.target.value,
     });
+    this.restoreScrollPosition();
   }
 
-  _restoreScrollPosition() {
-    if (this._scrollPosition === 0) {
+  setScrollPosition() {
+    this.scrollPosition = this.getElement().scrollTop;
+    return this.scrollPosition;
+  }
+
+  restoreScrollPosition() {
+    if (this.scrollPosition === 0) {
       return;
     }
-    this.getElement().scrollTo(0, this._scrollPosition);
+    this.getElement().scrollTo(0, this.scrollPosition);
   }
 
   _setInnerHandlers() {
@@ -178,8 +184,6 @@ export default class Popup extends SmartView {
   restoreHandlers() {
     this._setInnerHandlers();
     this._setOuterHandlers();
-     debugger
-    this._restoreScrollPosition();
   }
 
   static parseInformationToSate(film) {

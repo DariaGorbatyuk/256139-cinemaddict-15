@@ -50,7 +50,9 @@ export default class Film {
       replace(this._cardComponent, prevCardComponent);
 
       if (this.mode === Mode.DETAILS) {
+        this._popupComponent.scrollPosition = prevPopupComponent.setScrollPosition();
         replace(this._popupComponent, prevPopupComponent);
+        this._popupComponent.restoreScrollPosition();
       }
     }
 

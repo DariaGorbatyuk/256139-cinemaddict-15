@@ -64,7 +64,7 @@ const createPopupTemplate = (state = {}) => {
       ${createCommentsList()}
     </ul>`;
 
-  const createEmojiList = () => EMOTIONS.map((emotion) => `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emotion}" value="${emotion}" ${emotion === chosenEmoji ? 'checked': ''}>
+  const createEmojiList = () => EMOTIONS.map((emotion) => `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emotion}" value="${emotion}" ${emotion === chosenEmoji ? 'checked' : ''}>
             <label class="film-details__emoji-label" for="emoji-${emotion}">
               <img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji">
             </label>`).join('\n');
@@ -139,6 +139,7 @@ export default class Popup extends SmartView {
     this._setInnerHandlers();
   }
 
+
   _inputCommentTextAreaHandler(evt) {
     evt.preventDefault();
     this.updateState({
@@ -148,9 +149,17 @@ export default class Popup extends SmartView {
 
   _chooseEmojiHandler(evt) {
     evt.preventDefault();
+    this._scrollPosition = this.getElement().scrollTop;
     this.updateState({
       chosenEmoji: evt.target.value,
     });
+  }
+
+  _restoreScrollPosition() {
+    if (this._scrollPosition === 0) {
+      return;
+    }
+    this.getElement().scrollTo(0, this._scrollPosition);
   }
 
   _setInnerHandlers() {
@@ -169,6 +178,8 @@ export default class Popup extends SmartView {
   restoreHandlers() {
     this._setInnerHandlers();
     this._setOuterHandlers();
+     debugger
+    this._restoreScrollPosition();
   }
 
   static parseInformationToSate(film) {

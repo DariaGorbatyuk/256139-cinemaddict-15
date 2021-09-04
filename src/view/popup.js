@@ -58,7 +58,7 @@ const createPopupTemplate = (state = {}) => {
             </div>
           </li>`).join('\n');
 
-  const createOldCommentsBlock = () => `<h3 class="film-details__comments-title">Comments
+  const createExistingCommentsBlock = () => `<h3 class="film-details__comments-title">Comments
     <span class="film-details__comments-count">${comments.length}</span></h3>
     <ul class="film-details__comments-list">
       ${createCommentsList()}
@@ -109,7 +109,7 @@ const createPopupTemplate = (state = {}) => {
 
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        ${isComments ? createOldCommentsBlock() : ''}
+        ${isComments ? createExistingCommentsBlock() : ''}
         <div class="film-details__new-comment">
           <div class="film-details__add-emoji-label">${chosenEmoji ? `<img src="./images/emoji/${chosenEmoji}.png" width="55" height="55" alt="emoji">` : ''}</div>
           <label class="film-details__comment-label">
